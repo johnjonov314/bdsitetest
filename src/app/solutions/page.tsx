@@ -9,15 +9,29 @@ export default async function SolutionsPage() {
   const solutions = await getSolutions();
   return (
     <Container>
-      <div className="py-12">
+      <div className="space-y-8 py-12">
         <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Решения" }]} />
-        <SectionTitle eyebrow="Solutions" title="Решения Beeline Big Data & AI" />
+        <SectionTitle
+          eyebrow="Solutions"
+          title="Продуктовые направления"
+          description="От ИИ-агентов до прикладной аналитики: каждое направление спроектировано под enterprise-внедрение, интеграции и измеримый бизнес-эффект."
+        />
         <div className="grid gap-4 md:grid-cols-2">
           {solutions.map((s: Solution) => (
-            <article key={s.slug} className="glass rounded-2xl p-6">
-              <h2 className="text-2xl">{s.title}</h2>
+            <article key={s.slug} className="glass noise rounded-2xl p-6">
+              <p className="font-mono text-xs text-primary">PRIORITY 0{s.priority}</p>
+              <h2 className="mt-2 text-2xl font-semibold">{s.title}</h2>
               <p className="mt-2 text-muted">{s.summary}</p>
-              <Button href={`/solutions/${s.slug}`} variant="secondary" className="mt-4">Подробнее</Button>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {s.points.map((point) => (
+                  <span key={point} className="rounded-full border border-white/20 px-3 py-1 text-xs text-muted">
+                    {point}
+                  </span>
+                ))}
+              </div>
+              <Button href={`/solutions/${s.slug}`} variant="secondary" className="mt-6">
+                Провалиться в направление
+              </Button>
             </article>
           ))}
         </div>

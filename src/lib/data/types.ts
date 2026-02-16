@@ -1,4 +1,5 @@
 export type NavItem = { label: string; href: string };
+
 export type Solution = {
   slug: string;
   title: string;
@@ -22,4 +23,16 @@ export type InsightPost = {
   excerpt: string;
   publishedAt: string;
   content: string;
+};
+
+export type ProductDirectionContent = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  intro: string;
+  outcomes: string[];
+  capabilities: string[];
+  useCases: string[];
+  stack: string[];
+  kpi: string[];
 };

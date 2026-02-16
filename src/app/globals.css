@@ -16,20 +16,40 @@
   @apply border-border;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   @apply bg-background text-foreground antialiased;
+  font-family: "Inter", "Manrope", "Segoe UI", sans-serif;
   background-image:
     radial-gradient(circle at 20% -10%, rgba(69, 225, 195, 0.15), transparent 40%),
     radial-gradient(circle at 80% 10%, rgba(138, 77, 255, 0.2), transparent 45%),
     linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
 }
 
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: -0.02em;
+}
+
+code,
+.mono,
+.font-mono {
+  font-family: "JetBrains Mono", "IBM Plex Mono", "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
 .glass {
-  @apply bg-white/5 border border-white/10 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.25)];
+  @apply border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.25)];
 }
 
 .grid-pattern {
-  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-image:
+    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
