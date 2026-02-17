@@ -3,13 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --background: 222 36% 7%;
+  --background: 224 39% 6%;
   --foreground: 210 40% 96%;
-  --card: 224 35% 11%;
-  --border: 221 22% 24%;
-  --primary: 168 84% 62%;
-  --muted: 217 18% 65%;
-  --accent: 266 95% 67%;
+  --card: 224 33% 10%;
+  --border: 221 24% 22%;
+  --primary: 167 92% 63%;
+  --muted: 218 16% 68%;
+  --accent: 267 95% 69%;
+
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.28);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 180ms;
+  --dur-mid: 320ms;
 }
 
 * {
@@ -29,6 +36,24 @@ body {
     linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
 }
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.045;
+  background-image: radial-gradient(rgba(255,255,255,0.6) 0.6px, transparent 0.6px);
+  background-size: 2px 2px;
+}
+
+main,
+header,
+footer {
+  position: relative;
+  z-index: 2;
+}
+
 h1,
 h2,
 h3,
@@ -43,7 +68,8 @@ code,
 }
 
 .glass {
-  @apply border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_4px_30px_rgba(0,0,0,0.25)];
+  @apply border border-white/10 bg-white/5 backdrop-blur-xl;
+  box-shadow: var(--shadow-soft);
 }
 
 .grid-pattern {
@@ -65,4 +91,15 @@ code,
   background-image: radial-gradient(rgba(255,255,255,0.06) 0.5px, transparent 0.5px);
   background-size: 2px 2px;
   opacity: 0.08;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { CookieBanner } from "@/components/layout/cookie-banner";
 import { Toaster } from "sonner";
+import { PageTransition } from "@/components/motion/page-transition";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -27,7 +28,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="ru">
       <body>
         <Navbar />
-        <main>{children}</main>
+        <main><PageTransition>{children}</PageTransition></main>
         <Footer />
         <Toaster theme="dark" />
         {siteConfig.enableCookieBanner ? <CookieBanner /> : null}
