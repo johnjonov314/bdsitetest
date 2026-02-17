@@ -19,11 +19,13 @@ const schema = z.object({
 
 type FormValues = z.infer<typeof schema>;
 
-export function LeadForm() {
+type LeadFormProps = { defaultInterest?: string; defaultMessage?: string };
+
+export function LeadForm({ defaultInterest = "ИИ-агенты", defaultMessage = "" }: LeadFormProps) {
   const [sent, setSent] = useState(false);
   const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { interest: "ИИ-агенты", consent: false }
+    defaultValues: { interest: defaultInterest, message: defaultMessage, consent: false }
   });
 
   const onSubmit = async (values: FormValues) => {
@@ -44,7 +46,7 @@ export function LeadForm() {
   };
 
   if (sent) {
-    return <div className="glass rounded-2xl p-8 text-center text-lg">Заявка отправлена. Команда свяжется с вами через корпоративный канал.</div>;
+    return <div className="glass rounded-2xl p-8 text-center text-lg">Заявка отправлена. В течение рабочего дня вернёмся с планом и SLA запуска.</div>;
   }
 
   return (
@@ -57,7 +59,7 @@ export function LeadForm() {
       </div>
       <Field label="Интерес" error={errors.interest?.message}>
         <select {...register("interest")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3">
-          <option>ИИ-агенты</option><option>Видеоаналитика и наблюдение</option><option>Геоаналитика</option><option>Антифрод</option><option>Speech/Audio Analytics</option>
+          <option>ИИ-агенты</option><option>Видеоаналитика и наблюдение</option><option>Геоаналитика</option><option>Антифрод</option><option>Платформа Data & AI</option>
         </select>
       </Field>
       <Field label="Сообщение" error={errors.message?.message}><textarea {...register("message")} rows={4} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>

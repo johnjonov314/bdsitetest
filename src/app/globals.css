@@ -9,20 +9,19 @@
   --border: 45 12% 24%;
   --primary: 48 96% 52%;
   --muted: 48 8% 70%;
-  --accent: 275 90% 68%;
+  --accent: 194 88% 65%;
   --shadow-soft: 0 18px 44px rgba(0, 0, 0, 0.4);
 }
 
 * { @apply border-border; }
-
 html { scroll-behavior: smooth; }
 
 body {
   @apply bg-background text-foreground antialiased;
   font-family: "Inter", "Manrope", "Segoe UI", sans-serif;
   background-image:
-    radial-gradient(circle at 15% -5%, rgba(255, 220, 0, 0.22), transparent 38%),
-    radial-gradient(circle at 85% 8%, rgba(152, 74, 255, 0.2), transparent 38%),
+    radial-gradient(circle at 15% -5%, rgba(255, 220, 0, 0.16), transparent 38%),
+    radial-gradient(circle at 85% 8%, rgba(68, 155, 255, 0.14), transparent 42%),
     linear-gradient(180deg, #111008 0%, #090805 100%);
 }
 
@@ -32,29 +31,36 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.045;
+  opacity: 0.04;
   background-image: radial-gradient(rgba(255, 255, 255, 0.6) 0.6px, transparent 0.6px);
   background-size: 2px 2px;
 }
 
 main, header, footer { position: relative; z-index: 2; }
-
 h1, h2, h3, h4 { letter-spacing: -0.03em; }
-
 code, .mono, .font-mono { font-family: "JetBrains Mono", "IBM Plex Mono", monospace; }
 
-.glass { @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl; box-shadow: var(--shadow-soft); }
+.scene-backdrop { pointer-events: none; }
+.scene-layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 360ms ease;
+}
+.scene-layer[data-active="1"] { opacity: 1; }
+.scene-hero { background: radial-gradient(circle at 10% 10%, rgba(255,218,63,.18), transparent 38%), radial-gradient(circle at 88% 14%, rgba(73,136,255,.14), transparent 42%); }
+.scene-core { background: radial-gradient(circle at 15% 30%, rgba(255,218,63,.12), transparent 40%); }
+.scene-agents { background: radial-gradient(circle at 82% 30%, rgba(66,201,255,.14), transparent 42%); }
+.scene-solutions { background: radial-gradient(circle at 50% 50%, rgba(255,218,63,.08), transparent 45%); }
+.scene-trust { background: radial-gradient(circle at 20% 70%, rgba(66,201,255,.11), transparent 44%); }
+.scene-cta { background: radial-gradient(circle at 70% 80%, rgba(255,218,63,.14), transparent 44%); }
 
+.glass { @apply border border-white/10 bg-white/[0.03] backdrop-blur-xl; box-shadow: var(--shadow-soft); }
 .glow-hover { transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease; }
 .glow-hover:hover {
   transform: translateY(-4px);
   border-color: rgba(255, 220, 0, 0.46);
   box-shadow: 0 18px 44px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 220, 0, 0.16), 0 0 24px rgba(255, 220, 0, 0.2);
-}
-
-.grid-pattern {
-  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
 }
 
 .noise { position: relative; }
@@ -74,7 +80,6 @@ code, .mono, .font-mono { font-family: "JetBrains Mono", "IBM Plex Mono", monosp
   transform: translate3d(var(--mx), var(--my), 0);
   transition: transform 250ms ease;
 }
-
 .hero-orb {
   position: absolute;
   border-radius: 999px;
@@ -83,9 +88,7 @@ code, .mono, .font-mono { font-family: "JetBrains Mono", "IBM Plex Mono", monosp
   animation: float 7s ease-in-out infinite;
   animation-play-state: paused;
 }
-
 .hero-flow[data-active="1"] .hero-orb { animation-play-state: running; }
-
 .hero-orb-a {
   width: 220px;
   height: 220px;
@@ -93,14 +96,39 @@ code, .mono, .font-mono { font-family: "JetBrains Mono", "IBM Plex Mono", monosp
   right: 18%;
   background: radial-gradient(circle, rgba(255,220,0,0.5), transparent 65%);
 }
-
 .hero-orb-b {
   width: 280px;
   height: 280px;
   bottom: -8%;
   left: 10%;
-  background: radial-gradient(circle, rgba(168,85,247,0.45), transparent 65%);
+  background: radial-gradient(circle, rgba(72,154,255,0.36), transparent 65%);
   animation-delay: -2s;
+}
+
+.arch-link {
+  position: absolute;
+  left: calc(100% + 2px);
+  top: 40px;
+  width: 20px;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(255,220,0,.5), rgba(255,255,255,.08));
+}
+
+.assistant-trigger { transition: transform 180ms ease, border-color 180ms ease; }
+.assistant-trigger:hover { transform: translateY(-2px); border-color: rgba(255, 220, 0, 0.6); }
+.orb-mark { background: radial-gradient(circle at 30% 30%, rgba(255,220,0,.35), rgba(0,0,0,.2)); }
+.orb-ring {
+  position: absolute;
+  inset: 6px;
+  border-radius: 999px;
+  border: 1.4px solid rgba(255, 220, 0, 0.75);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.14) inset;
+}
+.orb-core {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: radial-gradient(circle, #ffe76f, #ffc800 65%, rgba(255,200,0,.5));
 }
 
 @keyframes float {
@@ -119,4 +147,5 @@ code, .mono, .font-mono { font-family: "JetBrains Mono", "IBM Plex Mono", monosp
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  .scene-layer { transition: none; }
 }

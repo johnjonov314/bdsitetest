@@ -1,46 +1,122 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-const helperLinks = [
-  { label: "Открыть платформу", href: "/platform" },
-  { label: "Открыть каталог AI-агентов", href: "/ai-agents" },
-  { label: "Отраслевые кейсы", href: "/industries" },
-  { label: "CMS Studio", href: process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || "/playbook" }
+type Preset = {
+  id: string;
+  title: string;
+  question: string;
+  summary: string;
+  kpi: string;
+  architecture: string;
+};
+
+const presets: Preset[] = [
+  {
+    id: "solution",
+    title: "Подобрать решение под задачу",
+    question: "Нужно снизить ручные операции в клиентском сервисе и ускорить обработку обращений.",
+    summary: "Рекомендуем связку AI-агентов поддержки + оркестрацию заявок с контролем качества.",
+    kpi: "Ожидаемый эффект: до -35% времени обработки обращений за 8–12 недель.",
+    architecture: "Контур: CRM → ingestion → LLM-слой → AI-агент → audit trail и SLA-мониторинг."
+  },
+  {
+    id: "roi",
+    title: "Оценить эффект (KPI/ROI)",
+    question: "Нужно подготовить оценку ROI внедрения AI в продажи и поддержку.",
+    summary: "Собираем baseline, считаем сценарии и формируем матрицу эффектов по подразделениям.",
+    kpi: "Ожидаемый эффект: до +12% конверсии лидов и до -28% OPEX на рутинные процессы.",
+    architecture: "Контур: BI + исторические данные + KPI-модель + дашборд контроля эффекта."
+  },
+  {
+    id: "architecture",
+    title: "Собрать архитектуру внедрения",
+    question: "Нужна архитектура AI-платформы с on-prem контуром и безопасным доступом.",
+    summary: "Проектируем этапы: data foundation, модельный слой, агентный слой и интеграции.",
+    kpi: "Ожидаемый эффект: до -40% рисков внедрения за счёт пилота с измеримыми SLA.",
+    architecture: "Контур: data lakehouse → feature store → model gateway → agents orchestration → observability."
+  }
 ];
 
 export function AiAssistantWidget() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<Preset>(presets[0]);
+  const [input, setInput] = useState("");
+
+  const result = useMemo(() => {
+    const normalized = input.trim();
+    if (!normalized) return active;
+    return {
+      ...active,
+      question: normalized,
+      summary: `Для задачи «${normalized}» предлагаем старт через пилот на одном процессе и быстрый замер эффекта.`,
+      kpi: "Ожидаемый эффект: до -25% времени цикла процесса и прозрачный SLA по каждому этапу.",
+      architecture: "Контур: источники данных → AI-модуль → рабочее место сотрудника → мониторинг качества и аудита."
+    };
+  }, [active, input]);
+
+  const contactQuery = `/contacts?interest=${encodeURIComponent(active.title)}&message=${encodeURIComponent(result.question)}`;
 
   return (
-    <div className="fixed bottom-5 right-5 z-[70] hidden max-w-xs md:block">
+    <div className="pointer-events-none fixed bottom-4 right-4 z-[70] max-w-sm md:bottom-5 md:right-5">
       {open ? (
-        <div className="glass mb-3 rounded-2xl p-4">
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-yellow-200">AI-навигатор</p>
-          <p className="mt-2 text-sm text-muted">Помогу перейти в нужный раздел платформы.</p>
+        <section className="pointer-events-auto mb-3 w-[min(92vw,380px)] rounded-2xl border border-white/15 bg-[#0e1016]/95 p-4 shadow-2xl backdrop-blur-xl">
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-yellow-200">AI-помощник</p>
+              <h3 className="mt-1 text-lg font-semibold">Подобрать решение</h3>
+            </div>
+            <button className="rounded-md border border-white/20 px-2 py-1 text-xs text-muted hover:text-foreground" onClick={() => setOpen(false)}>Свернуть</button>
+          </div>
+
           <div className="mt-3 grid gap-2">
-            {helperLinks.map((item) => (
-              <Link key={item.label} href={item.href} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm hover:bg-white/10">
-                {item.label}
-              </Link>
+            {presets.map((preset) => (
+              <button
+                key={preset.id}
+                onClick={() => setActive(preset)}
+                className={`rounded-xl border px-3 py-2 text-left text-sm transition ${active.id === preset.id ? "border-yellow-300/70 bg-yellow-300/15" : "border-white/15 bg-white/5 hover:border-white/35"}`}
+              >
+                {preset.title}
+              </button>
             ))}
           </div>
-          <Button className="mt-3 w-full" variant="secondary" onClick={() => setOpen(false)}>Свернуть</Button>
-        </div>
+
+          <label className="mt-3 grid gap-1 text-xs text-muted">
+            Опишите задачу
+            <textarea
+              rows={3}
+              value={input}
+              onChange={(event) => setInput(event.target.value)}
+              placeholder="Например: снизить потери в контакт-центре и автоматизировать контроль качества."
+              className="w-full rounded-xl border border-white/15 bg-black/20 p-3 text-sm text-foreground"
+            />
+          </label>
+
+          <article className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-sm">
+            <p className="text-foreground">{result.summary}</p>
+            <p className="mt-2 text-muted">{result.kpi}</p>
+            <p className="mt-2 text-muted">{result.architecture}</p>
+          </article>
+
+          <div className="mt-3 flex gap-2">
+            <Button href={contactQuery} className="w-full" eventName="request_demo">Получить план</Button>
+            <Link href="/ai-agents" className="inline-flex items-center rounded-xl border border-white/20 px-3 text-sm text-muted hover:text-foreground">Каталог</Link>
+          </div>
+        </section>
       ) : null}
 
-      <button className="group flex items-center gap-3 rounded-full border border-white/20 bg-black/60 p-2 pr-4 backdrop-blur" onClick={() => setOpen((value) => !value)} aria-label="Открыть AI-навигатор">
-        <span className="relative grid h-12 w-12 place-items-center overflow-hidden rounded-full bg-gradient-to-br from-yellow-300 via-amber-200 to-yellow-500">
-          <svg viewBox="0 0 64 64" className="h-10 w-10">
-            <circle cx="32" cy="32" r="16" fill="#0B1020" opacity="0.9" />
-            <circle cx="26" cy="30" r="2" fill="#fff" />
-            <circle cx="38" cy="30" r="2" fill="#fff" />
-            <path d="M24 38 C28 42, 36 42, 40 38" stroke="#fff" strokeWidth="2" fill="none" strokeLinecap="round" />
-          </svg>
+      <button
+        className="assistant-trigger pointer-events-auto group flex items-center gap-3 rounded-full border border-white/25 bg-black/55 p-2 pr-4 backdrop-blur"
+        onClick={() => setOpen((value) => !value)}
+        aria-label="Открыть AI-помощника"
+      >
+        <span className="orb-mark relative grid h-12 w-12 place-items-center overflow-hidden rounded-full">
+          <span className="orb-ring" />
+          <span className="orb-core" />
         </span>
-        <span className="text-sm">Чем помочь?</span>
+        <span className="text-sm font-medium">Подобрать решение</span>
       </button>
     </div>
   );

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { SectionTitle } from "@/components/ui/section-title";
 import { HeroDataFlow } from "@/components/sections/hero-data-flow";
 import { ArchitectureMap } from "@/components/visuals/architecture-map";
+import { ScrollScenes } from "@/components/sections/scroll-scenes";
+import { BrainCircuitIcon, AgentsIcon, DataNodeIcon, ShieldIcon, LockIcon, AuditIcon, CloudIcon, LifebuoyIcon } from "@/components/visuals/line-icons";
 import { solutionsData, aiAgentsData } from "@/lib/data/platform-content";
 
 const SolutionsShowcase = dynamic(() => import("@/components/sections/solutions-showcase").then((mod) => mod.SolutionsShowcase), {
@@ -12,9 +14,23 @@ const SolutionsShowcase = dynamic(() => import("@/components/sections/solutions-
 });
 
 const pillars = [
-  { title: "Data", bullets: ["Подключение и качество данных", "Data governance и каталог", "Безопасные витрины для подразделений"] },
-  { title: "AI", bullets: ["MLOps/LLMOps контур", "Наблюдаемость качества моделей", "Сценарное масштабирование нагрузок"] },
-  { title: "Agents", bullets: ["Цифровые сотрудники по ролям", "Оркестрация бизнес-процессов", "Контроль SLA и результатов"] }
+  { title: "Data", icon: DataNodeIcon, bullets: ["Подключение и контроль качества источников", "Каталог данных и правила governance", "Безопасные витрины для всех команд"] },
+  { title: "AI", icon: BrainCircuitIcon, bullets: ["MLOps/LLMOps и релизный контур", "Мониторинг drift и качества ответов", "Управление стоимостью и скоростью inference"] },
+  { title: "Agents", icon: AgentsIcon, bullets: ["Цифровые сотрудники по бизнес-ролям", "Оркестрация процессов между системами", "SLA-контроль результата и журнал действий"] }
+];
+
+const trustBadges = [
+  { label: "RBAC и контуры доступа", icon: ShieldIcon },
+  { label: "Masking и защита PII", icon: LockIcon },
+  { label: "Audit trail по действиям", icon: AuditIcon },
+  { label: "On-prem / private cloud", icon: CloudIcon },
+  { label: "SLA и 24/7 поддержка", icon: LifebuoyIcon }
+];
+
+const cases = [
+  { title: "Финтех", problem: "Рост ручной проверки транзакций", impact: "до -38% времени расследований и ускорение реакции на аномалии" },
+  { title: "Ритейл", problem: "Потери из-за OOS и несвоевременных поставок", impact: "до +11% доступности полки и снижение списаний" },
+  { title: "Telecom", problem: "Высокий churn и перегрузка поддержки", impact: "до +9% удержания и снижение нагрузки на линию поддержки" }
 ];
 
 const deck = aiAgentsData.slice(0, 6);
@@ -22,14 +38,16 @@ const deck = aiAgentsData.slice(0, 6);
 export default function Home() {
   return (
     <div className="space-y-24 pb-24 pt-10">
-      <section>
+      <ScrollScenes />
+
+      <section data-scene="hero">
         <Container>
           <div className="noise relative overflow-hidden rounded-3xl border border-yellow-300/20 px-6 py-16 md:px-12 md:py-20">
             <HeroDataFlow />
             <div className="relative z-10 max-w-4xl space-y-6">
               <p className="font-mono text-xs uppercase tracking-[0.24em] text-yellow-200">AI Operating System • BigData & AI</p>
-              <h1 className="text-5xl font-semibold leading-tight md:text-7xl">Платформа данных, AI и агентов для enterprise</h1>
-              <p className="text-lg text-muted">Оригинальная технологическая сцена: от data-flow до готовых AI-сотрудников и индустриальных решений.</p>
+              <h1 className="text-5xl font-semibold leading-tight md:text-7xl">AI-платформа, которая превращает данные в бизнес-результат</h1>
+              <p className="text-lg text-muted">Для enterprise-команд, которым нужны контроль, безопасность и масштабируемый эффект от AI и агентных сценариев.</p>
               <div className="flex flex-wrap gap-3">
                 <Button href="/platform" eventName="view_platform">Смотреть платформу</Button>
                 <Button href="/ai-agents" variant="secondary" eventName="open_agents">AI-агенты для бизнеса</Button>
@@ -39,60 +57,82 @@ export default function Home() {
         </Container>
       </section>
 
-      <section>
+      <section data-scene="core">
         <Container>
-          <SectionTitle eyebrow="Core" title="Платформенное ядро" description="Три pillar-панели вместо перегруженных гридов." />
+          <SectionTitle eyebrow="Ядро" title="Платформенное ядро Data → AI → Agents" description="Три pillar-блока дают понятную и управляемую архитектуру внедрения." />
           <div className="grid gap-4 lg:grid-cols-3">
-            {pillars.map((pillar) => (
-              <article key={pillar.title} className="glass glow-hover rounded-2xl p-6">
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-yellow-200">{pillar.title}</p>
-                <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">
-                  {pillar.bullets.map((item) => <li key={item}>{item}</li>)}
-                </ul>
-              </article>
-            ))}
+            {pillars.map((pillar) => {
+              const Icon = pillar.icon;
+              return (
+                <article key={pillar.title} className="glass glow-hover rounded-2xl p-6">
+                  <div className="flex items-center gap-2 text-yellow-200">
+                    <Icon />
+                    <p className="font-mono text-xs uppercase tracking-[0.2em]">{pillar.title}</p>
+                  </div>
+                  <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">
+                    {pillar.bullets.map((item) => <li key={item}>{item}</li>)}
+                  </ul>
+                </article>
+              );
+            })}
           </div>
         </Container>
       </section>
 
-      <section>
+      <section data-scene="agents">
         <Container>
-          <SectionTitle eyebrow="AI-агенты" title="Цифровые AI-сотрудники" description="SME growth-engine: выберите роль и сразу увидьте результат." />
+          <SectionTitle eyebrow="AI-агенты" title="Цифровые AI-сотрудники" description="Выберите роль и получите быстрый сценарий запуска с измеримым KPI." />
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {deck.map((role) => (
               <article key={role.slug} className="glass glow-hover rounded-2xl p-5">
                 <p className="font-mono text-xs uppercase tracking-[0.18em] text-yellow-200">{role.category}</p>
                 <h3 className="mt-2 text-lg font-semibold">{role.title}</h3>
                 <p className="mt-2 text-sm text-muted">{role.outcomes[0]}</p>
+                <p className="mt-2 text-xs text-muted">KPI: {role.outcomes[1]}</p>
                 <Link href={`/ai-agents/${role.slug}`} className="mt-3 inline-block text-sm text-yellow-200">Открыть роль →</Link>
               </article>
             ))}
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <Button href="/ai-agents" eventName="open_agents">Открыть каталог ролей</Button>
-            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-muted">Скоро: маркетплейс и конструктор сценариев</span>
+            <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-muted">Скоро: маркетплейс и конструктор агентных сценариев</span>
           </div>
         </Container>
       </section>
 
-      <section>
+      <section data-scene="solutions">
         <Container>
-          <SectionTitle eyebrow="Флагманы" title="4 ключевых enterprise-направления" description="На главной — только главное. Вся глубина на странице решений." />
+          <SectionTitle eyebrow="Флагманы" title="4 ключевых enterprise-направления" description="На главной только ключевые треки. Полная глубина — на странице решений." />
           <SolutionsShowcase items={solutionsData} limit={4} />
         </Container>
       </section>
 
-      <section>
+      <section data-scene="trust">
         <Container>
-          <SectionTitle eyebrow="Архитектура" title="Снимок архитектуры платформы" description="Ingestion → Storage → Feature store → Models → Agents → Observability → APIs." />
+          <SectionTitle eyebrow="Доверие" title="Архитектура и контроль внедрения" description="Proof stack: схема платформы, security/compliance и измеримые результаты." />
           <ArchitectureMap />
+          <div className="mt-4 flex flex-wrap gap-2">
+            {trustBadges.map((item) => {
+              const Icon = item.icon;
+              return <span key={item.label} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-xs text-muted"><Icon />{item.label}</span>;
+            })}
+          </div>
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
+            {cases.map((item) => (
+              <article key={item.title} className="glass rounded-2xl p-4">
+                <p className="font-mono text-xs text-yellow-200">{item.title}</p>
+                <p className="mt-2 text-sm text-muted">Контекст: {item.problem}</p>
+                <p className="mt-2 text-sm">Эффект: {item.impact}</p>
+              </article>
+            ))}
+          </div>
         </Container>
       </section>
 
-      <section>
+      <section data-scene="cta">
         <Container>
           <div className="glass rounded-3xl p-8 md:p-10">
-            <SectionTitle eyebrow="Дальше" title="Две траектории запуска" description="Выберите путь: быстрый старт для SME или платформенное внедрение для enterprise." />
+            <SectionTitle eyebrow="Запуск" title="Две траектории старта" description="SME — быстрый запуск AI-агентов. Enterprise — платформенное внедрение и масштабирование." />
             <div className="flex flex-wrap gap-3">
               <Button href="/ai-agents" eventName="open_agents">Начать с AI-агентов (SME)</Button>
               <Button href="/contacts" variant="secondary" eventName="request_demo">Обсудить платформу (Enterprise)</Button>

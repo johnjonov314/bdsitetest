@@ -117,3 +117,24 @@ npm run lint
 npm run typecheck
 npm run build
 ```
+
+
+## 10) AI assistant widget
+Файл: `src/components/layout/ai-assistant-widget.tsx`
+
+Что можно менять:
+- пресеты сценариев (подбор решения / KPI / архитектура)
+- структуру preview-ответа
+- query prefill для `/contacts`
+
+Важно:
+- не перекрывать контент на mobile
+- CTA всегда должен вести в лид-форму с prefill
+
+## 11) Scroll scenes на главной
+Файлы:
+- `src/components/sections/scroll-scenes.tsx`
+- `src/app/page.tsx` (`data-scene` у секций)
+- `src/app/globals.css` (`.scene-*` слои)
+
+Правило: менять только 5–6 сцен и держать low-contrast фон, чтобы не ухудшать читаемость.

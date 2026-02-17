@@ -41,8 +41,8 @@ export function HeroDataFlow() {
         <defs>
           <linearGradient id="flowA" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0" stopColor="#FFE45E" />
-            <stop offset="0.6" stopColor="#A855F7" />
-            <stop offset="1" stopColor="#34D399" />
+            <stop offset="0.6" stopColor="#4A8FFF" />
+            <stop offset="1" stopColor="#7CC4FF" />
           </linearGradient>
         </defs>
         <path d="M0 320 C220 180, 320 200, 500 280 S840 390, 1200 260" stroke="url(#flowA)" strokeWidth="2" fill="none" />
