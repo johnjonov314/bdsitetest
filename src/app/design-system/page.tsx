@@ -9,7 +9,7 @@ export default function DesignSystemPage() {
   return (
     <Container>
       <div className="space-y-12 py-12">
-        <SectionTitle eyebrow="Style" title="Design System" description="Токены, типографика, motion и визуальные блоки." />
+        <SectionTitle eyebrow="Система" title="Дизайн-система" description="Токены, типографика, motion и визуальные блоки." />
 
         <section className="grid gap-4 md:grid-cols-3">
           {["#48f2cf", "#8b5cf6", "#b9ff66"].map((token) => (
@@ -23,17 +23,17 @@ export default function DesignSystemPage() {
         <section className="glass rounded-2xl p-6">
           <h2 className="text-3xl font-semibold">Типографика</h2>
           <p className="mt-2 text-muted">Заголовки — плотные и строгие, подписи и технические метки — в mono.</p>
-          <p className="mt-3 font-mono text-xs uppercase tracking-[0.24em] text-primary">Enterprise AI Platform</p>
+          <p className="mt-3 font-mono text-xs uppercase tracking-[0.24em] text-primary">Платформа Enterprise AI</p>
         </section>
 
         <section className="grid gap-4 md:grid-cols-2">
           <TiltCard>
             <div className="glass rounded-2xl p-6">
-              <h3 className="text-xl font-semibold">Motion</h3>
-              <p className="mt-2 text-sm text-muted">Tilt-card + reveal + magnetic CTA.</p>
+              <h3 className="text-xl font-semibold">Анимации</h3>
+              <p className="mt-2 text-sm text-muted">Наклон карточки, reveal-анимация и магнитный CTA.</p>
               <div className="mt-4 flex gap-3">
-                <Button>Primary</Button>
-                <Button variant="secondary">Secondary</Button>
+                <Button>Основная</Button>
+                <Button variant="secondary">Вторичная</Button>
               </div>
             </div>
           </TiltCard>

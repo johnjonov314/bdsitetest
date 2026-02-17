@@ -3,20 +3,15 @@
 @tailwind utilities;
 
 :root {
-  --background: 224 39% 6%;
-  --foreground: 210 40% 96%;
-  --card: 224 33% 10%;
-  --border: 221 24% 22%;
-  --primary: 167 92% 63%;
-  --muted: 218 16% 68%;
-  --accent: 267 95% 69%;
+  --background: 232 45% 5%;
+  --foreground: 210 40% 98%;
+  --card: 229 34% 10%;
+  --border: 227 22% 24%;
+  --primary: 166 88% 62%;
+  --muted: 218 18% 70%;
+  --accent: 276 92% 68%;
 
-  --radius-lg: 1rem;
-  --radius-xl: 1.5rem;
-  --shadow-soft: 0 12px 40px rgba(0, 0, 0, 0.28);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-fast: 180ms;
-  --dur-mid: 320ms;
+  --shadow-soft: 0 12px 44px rgba(0, 0, 0, 0.34);
 }
 
 * {
@@ -31,9 +26,10 @@ body {
   @apply bg-background text-foreground antialiased;
   font-family: "Inter", "Manrope", "Segoe UI", sans-serif;
   background-image:
-    radial-gradient(circle at 20% -10%, rgba(69, 225, 195, 0.15), transparent 40%),
-    radial-gradient(circle at 80% 10%, rgba(138, 77, 255, 0.2), transparent 45%),
-    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+    radial-gradient(circle at 10% -5%, rgba(72, 242, 207, 0.16), transparent 35%),
+    radial-gradient(circle at 95% 5%, rgba(153, 82, 255, 0.22), transparent 38%),
+    radial-gradient(circle at 50% 50%, rgba(17, 100, 255, 0.12), transparent 55%),
+    linear-gradient(180deg, #080b15 0%, #060810 100%);
 }
 
 body::before {
@@ -42,8 +38,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.045;
-  background-image: radial-gradient(rgba(255,255,255,0.6) 0.6px, transparent 0.6px);
+  opacity: 0.04;
+  background-image: radial-gradient(rgba(255,255,255,0.65) 0.6px, transparent 0.6px);
   background-size: 2px 2px;
 }
 
@@ -58,7 +54,7 @@ h1,
 h2,
 h3,
 h4 {
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 code,
@@ -68,7 +64,7 @@ code,
 }
 
 .glass {
-  @apply border border-white/10 bg-white/5 backdrop-blur-xl;
+  @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
   box-shadow: var(--shadow-soft);
 }
 
@@ -88,7 +84,7 @@ code,
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(rgba(255,255,255,0.06) 0.5px, transparent 0.5px);
+  background-image: radial-gradient(rgba(255,255,255,0.05) 0.5px, transparent 0.5px);
   background-size: 2px 2px;
   opacity: 0.08;
 }

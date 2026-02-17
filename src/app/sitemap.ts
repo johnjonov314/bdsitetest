@@ -3,7 +3,7 @@ import { siteConfig } from "@/lib/config/site";
 import { insights, solutions } from "@/lib/data/fallback-content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/solutions", "/industries", "/cases", "/insights", "/about", "/contacts"].map((path) => ({
+  const staticRoutes = ["", "/solutions", "/industries", "/cases", "/insights", "/about", "/contacts", "/design-system", "/playbook"].map((path) => ({
     url: `${siteConfig.url}${path}`,
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : 0.8

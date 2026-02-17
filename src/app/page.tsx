@@ -13,11 +13,11 @@ import { ArchitectureMap } from "@/components/visuals/architecture-map";
 
 const industries = ["Госсектор", "Финансы", "Транспорт", "Ритейл", "Промышленность", "Энергетика", "Телеком", "Логистика"];
 const capabilities = [
-  "Data ingestion & quality",
-  "Data governance & catalog",
-  "Realtime analytics",
-  "AI-agents orchestration",
-  "Monitoring & SLA"
+  "Подключение и контроль качества данных",
+  "Управление данными и каталог",
+  "Аналитика в реальном времени",
+  "Оркестрация ИИ-агентов",
+  "Мониторинг и SLA"
 ];
 const useCases = [
   "Умный контакт-центр",
@@ -25,7 +25,7 @@ const useCases = [
   "Территориальное планирование",
   "Антифрод-контур",
   "Аналитика сервиса",
-  "Операционный control tower"
+  "Операционный контрольный центр"
 ];
 
 export default async function Home() {
@@ -39,14 +39,14 @@ export default async function Home() {
         <Container>
           <Reveal>
             <div className="noise relative space-y-8 rounded-3xl border border-white/10 px-6 py-16 md:px-12">
-              <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">Big Data Software Platform • Enterprise</p>
+              <p className="font-mono text-xs uppercase tracking-[0.24em] text-primary">Платформа больших данных и AI • Enterprise</p>
               <h1 className="max-w-5xl text-5xl font-semibold leading-tight md:text-7xl">Beeline Big Data & AI</h1>
               <p className="max-w-3xl text-lg text-muted">
                 Единая data/AI платформа для enterprise и госсектора: от подключения источников до агентных сценариев и SLA-внедрения.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button href="/contacts">Оставить заявку</Button>
-                <Button variant="secondary" href="/solutions">Посмотреть платформу</Button>
+                <Button variant="secondary" href="/solutions">Посмотреть решения</Button>
               </div>
               <div className="grid gap-3 text-sm text-muted sm:grid-cols-3">
                 <p className="glass rounded-xl p-4">Данные оператора</p>
@@ -60,7 +60,7 @@ export default async function Home() {
 
       <section id="solutions">
         <Container>
-          <SectionTitle eyebrow="Capabilities" title="Что делает платформа" description="Core-возможности для сквозного data-to-value цикла." />
+          <SectionTitle eyebrow="Возможности" title="Что делает платформа" description="Ключевые возможности для полного цикла: от данных до бизнес-эффекта." />
           <div className="grid gap-4 md:grid-cols-5">
             {capabilities.map((item, index) => (
               <Reveal key={item} delay={index * 0.04}>
@@ -73,12 +73,12 @@ export default async function Home() {
 
       <section>
         <Container>
-          <SectionTitle eyebrow="Solutions" title="Продуктовые направления" description="Проваливайтесь в направление: сценарии, архитектура, KPI, контур внедрения." />
+          <SectionTitle eyebrow="Направления" title="Продуктовые направления" description="Проваливайтесь в направление: сценарии, архитектура, KPI, контур внедрения." />
           <div className="grid gap-4 md:grid-cols-2">
             {solutions.slice(0, 4).map((s: Solution) => (
               <TiltCard key={s.slug}>
                 <article className="glass noise rounded-2xl p-6">
-                  <p className="font-mono text-xs text-primary">PRIORITY 0{s.priority}</p>
+                  <p className="font-mono text-xs text-primary">Приоритет 0{s.priority}</p>
                   <h3 className="mb-2 mt-2 text-2xl">{s.title}</h3>
                   <p className="text-muted">{s.summary}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
@@ -96,7 +96,7 @@ export default async function Home() {
 
       <section>
         <Container>
-          <SectionTitle eyebrow="Use cases" title="Сценарии применения" description="Практические сценарии для B2B и госсектора." />
+          <SectionTitle eyebrow="Сценарии" title="Сценарии применения" description="Практические сценарии для B2B и госсектора." />
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {useCases.map((item, i) => (
               <Reveal key={item} delay={i * 0.05}>
@@ -112,14 +112,14 @@ export default async function Home() {
 
       <section>
         <Container>
-          <SectionTitle eyebrow="Architecture" title="Архитектура платформы" description="Прозрачная схема от источников данных до конечных AI-сервисов." />
+          <SectionTitle eyebrow="Архитектура" title="Архитектура платформы" description="Прозрачная схема от источников данных до конечных AI-сервисов." />
           <ArchitectureMap />
         </Container>
       </section>
 
       <section>
         <Container>
-          <SectionTitle eyebrow="Spotlight" title="ИИ-агенты" description="Data → Models → Agents → Outcomes. Управляемый агентный контур для enterprise." />
+          <SectionTitle eyebrow="Фокус" title="ИИ-агенты" description="Данные → Модели → Агенты → Результаты. Управляемый агентный контур для enterprise." />
           <div className="grid gap-6 lg:grid-cols-5">
             <div className="lg:col-span-3"><AIAgentsDiagram /></div>
             <div className="space-y-3 lg:col-span-2">
@@ -153,18 +153,18 @@ export default async function Home() {
 
       <section>
         <Container>
-          <SectionTitle eyebrow="Security" title="Безопасность и комплаенс" />
-          <div className="glass rounded-2xl p-6 text-muted"><ul className="list-disc space-y-2 pl-5"><li>Работа с агрегированными и обезличенными данными.</li><li>Договорные контуры, role-based доступ и аудит.</li><li>Соответствие требованиям 152-ФЗ и корпоративной ИБ-политике.</li></ul></div>
+          <SectionTitle eyebrow="Безопасность" title="Безопасность и комплаенс" />
+          <div className="glass rounded-2xl p-6 text-muted"><ul className="list-disc space-y-2 pl-5"><li>Работа с агрегированными и обезличенными данными.</li><li>Договорные контуры, ролевой доступ и аудит.</li><li>Соответствие требованиям 152-ФЗ и корпоративной ИБ-политике.</li></ul></div>
         </Container>
       </section>
 
       <section>
         <Container>
-          <SectionTitle eyebrow="Pricing" title="Модель подключения" description="Пилот, масштабирование или enterprise-программа. Подбираем формат под ваш контур." />
+          <SectionTitle eyebrow="Подключение" title="Модель подключения" description="Пилот, масштабирование или enterprise-программа. Подбираем формат под ваш контур." />
           <div className="glass grid gap-4 rounded-2xl p-6 md:grid-cols-3">
-            {["Pilot", "Scale", "Enterprise"].map((tier) => <div key={tier} className="rounded-xl border border-white/10 p-4"><p className="font-mono text-xs text-primary">{tier.toUpperCase()}</p><p className="mt-2 text-sm text-muted">Обсуждается с учетом инфраструктуры, SLA и объема сценариев.</p></div>)}
+            {["Пилот", "Масштаб", "Enterprise"].map((tier) => <div key={tier} className="rounded-xl border border-white/10 p-4"><p className="font-mono text-xs text-primary">{tier.toUpperCase()}</p><p className="mt-2 text-sm text-muted">Обсуждается с учетом инфраструктуры, SLA и объема сценариев.</p></div>)}
           </div>
-          <div className="mt-6"><Button href="/contacts">Talk to sales</Button></div>
+          <div className="mt-6"><Button href="/contacts">Обсудить с командой</Button></div>
         </Container>
       </section>
 
@@ -177,7 +177,7 @@ export default async function Home() {
       <section>
         <Container>
           <div className="relative overflow-hidden rounded-3xl border border-white/10 p-8"><DotMesh />
-            <SectionTitle eyebrow="Start" title="Обсудим задачу и архитектуру внедрения" description="Оставьте заявку — подготовим релевантный сценарий под ваш контур." />
+            <SectionTitle eyebrow="Старт" title="Обсудим задачу и архитектуру внедрения" description="Оставьте заявку — подготовим релевантный сценарий под ваш контур." />
             <LeadForm />
           </div>
         </Container>

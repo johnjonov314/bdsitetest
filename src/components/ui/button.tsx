@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
-import { MouseEvent, ReactNode, Ref, useRef } from "react";
+import { MouseEvent, ReactNode, useRef } from "react";
 
 type ButtonProps = {
   children: ReactNode;
@@ -37,14 +37,14 @@ export function Button({ children, href, variant = "primary", className, magneti
 
   if (href) {
     return (
-      <Link ref={targetRef as Ref<HTMLAnchorElement>} href={href} className={cls} onMouseMove={handleMove} onMouseLeave={reset}>
+      <Link ref={(node) => { targetRef.current = node; }} href={href} className={cls} onMouseMove={handleMove} onMouseLeave={reset}>
         {children}
       </Link>
     );
   }
 
   return (
-    <button ref={targetRef as Ref<HTMLButtonElement>} className={cls} onMouseMove={handleMove} onMouseLeave={reset} {...props}>
+    <button ref={(node) => { targetRef.current = node; }} className={cls} onMouseMove={handleMove} onMouseLeave={reset} {...props}>
       {children}
     </button>
   );

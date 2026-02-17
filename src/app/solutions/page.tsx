@@ -12,14 +12,14 @@ export default async function SolutionsPage() {
       <div className="space-y-8 py-12">
         <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Решения" }]} />
         <SectionTitle
-          eyebrow="Solutions"
+          eyebrow="Решения"
           title="Продуктовые направления"
           description="От ИИ-агентов до прикладной аналитики: каждое направление спроектировано под enterprise-внедрение, интеграции и измеримый бизнес-эффект."
         />
         <div className="grid gap-4 md:grid-cols-2">
           {solutions.map((s: Solution) => (
             <article key={s.slug} className="glass noise rounded-2xl p-6">
-              <p className="font-mono text-xs text-primary">PRIORITY 0{s.priority}</p>
+              <p className="font-mono text-xs text-primary">Приоритет 0{s.priority}</p>
               <h2 className="mt-2 text-2xl font-semibold">{s.title}</h2>
               <p className="mt-2 text-muted">{s.summary}</p>
               <div className="mt-4 flex flex-wrap gap-2">

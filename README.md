@@ -51,6 +51,12 @@ sanity init
 
 При отсутствии Sanity-переменных сайт работает на fallback данных (`src/lib/data/fallback-content.ts`).
 
+
+## Куда загружать контент и картинки
+- Для маркетинга: контент, кейсы и публикации редактируются в **Sanity Studio**.
+- Для локальных медиа: используйте папку `public/media/*` и подключайте через `next/image`.
+- Для дизайна/маркетинга есть внутренняя страница-гайд: `/playbook`.
+
 ## Preview draft mode
 - Включение: `/api/draft?secret=...&slug=/`
 - Отключение: `/api/disable-draft`

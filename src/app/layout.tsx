@@ -6,6 +6,8 @@ import { Footer } from "@/components/layout/footer";
 import { CookieBanner } from "@/components/layout/cookie-banner";
 import { Toaster } from "sonner";
 import { PageTransition } from "@/components/motion/page-transition";
+import { CursorAura } from "@/components/motion/cursor-aura";
+import { AiAssistantWidget } from "@/components/layout/ai-assistant-widget";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -30,6 +32,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <Navbar />
         <main><PageTransition>{children}</PageTransition></main>
         <Footer />
+        <CursorAura />
+        <AiAssistantWidget />
         <Toaster theme="dark" />
         {siteConfig.enableCookieBanner ? <CookieBanner /> : null}
       </body>
