@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { DataNodeIcon, BrainCircuitIcon, AgentsIcon } from "@/components/visuals/line-icons";
 
 const steps = [
-  { id: "data", title: "Data", text: "Подключаем источники, стандартизируем качество и доступ.", points: ["Data governance", "Каталог и lineage", "Контроль качества"] , icon: DataNodeIcon},
-  { id: "ai", title: "AI", text: "Управляем модельным слоем от пилота до production.", points: ["MLOps / LLMOps", "Контроль drift", "Управление inference"] , icon: BrainCircuitIcon},
-  { id: "agents", title: "Agents", text: "Автоматизируем бизнес-процессы через цифровых сотрудников.", points: ["Оркестрация сценариев", "SLA и observability", "Интеграции CRM/ERP"] , icon: AgentsIcon}
+  { id: "data", title: "Data", text: "Подключаем источники, стандартизируем качество и доступ.", points: ["Data governance", "Каталог и lineage", "Контроль качества"], icon: DataNodeIcon },
+  { id: "ai", title: "AI", text: "Управляем модельным слоем от пилота до production.", points: ["MLOps / LLMOps", "Контроль drift", "Управление inference"], icon: BrainCircuitIcon },
+  { id: "agents", title: "Agents", text: "Автоматизируем бизнес-процессы через цифровых сотрудников.", points: ["Оркестрация сценариев", "SLA и observability", "Интеграции CRM/ERP"], icon: AgentsIcon }
 ] as const;
 
 export function CoreStory() {
@@ -22,7 +22,7 @@ export function CoreStory() {
         const id = hit.target.getAttribute("data-core-step") as (typeof steps)[number]["id"] | null;
         if (id) setActive(id);
       },
-      { threshold: [0.3, 0.55, 0.8], rootMargin: "-25% 0px -30% 0px" }
+      { threshold: [0.2, 0.45, 0.7], rootMargin: "-20% 0px -35% 0px" }
     );
     nodes.forEach((n) => observer.observe(n));
     return () => observer.disconnect();
@@ -35,7 +35,14 @@ export function CoreStory() {
     <div className="grid gap-6 lg:grid-cols-[1fr,1fr]">
       <div className="space-y-4">
         {steps.map((step) => (
-          <article key={step.id} data-core-step={step.id} className={`rounded-2xl border p-5 ${active === step.id ? "border-orange-300/60 bg-orange-300/10" : "border-white/10 bg-white/5"}`}>
+          <article
+            key={step.id}
+            data-core-step={step.id}
+            onMouseEnter={() => setActive(step.id)}
+            onFocus={() => setActive(step.id)}
+            tabIndex={0}
+            className={`cursor-pointer rounded-2xl border p-5 transition ${active === step.id ? "border-orange-300/60 bg-orange-300/10" : "border-white/10 bg-white/5"}`}
+          >
             <h3>{step.title}</h3>
             <p className="mt-2 text-muted">{step.text}</p>
           </article>

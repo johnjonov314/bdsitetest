@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 type Mode = "solution" | "impact" | "architecture";
@@ -22,6 +23,7 @@ const presets: { mode: Mode; title: string; prompt: string }[] = [
 ];
 
 export function AiAssistantWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<Mode>("solution");
   const [input, setInput] = useState(presets[0].prompt);
@@ -35,6 +37,24 @@ export function AiAssistantWidget() {
     window.addEventListener("open-assistant", onOpen);
     return () => window.removeEventListener("open-assistant", onOpen);
   }, []);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = previous;
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!resultRef.current) return;
@@ -56,7 +76,7 @@ export function AiAssistantWidget() {
       const response = await fetch("/api/agent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ mode, message: input, context: { page: "assistant_widget" } })
+        body: JSON.stringify({ mode, message: input, context: { page: pathname } })
       });
       if (!response.ok) throw new Error("agent_error");
       const payload = await response.json() as AgentResult;
@@ -77,10 +97,12 @@ export function AiAssistantWidget() {
 
   return (
     <>
-      <div className="pointer-events-none fixed bottom-4 right-4 z-[70] max-w-sm md:bottom-5 md:right-5">
+      {open ? <button aria-label="Закрыть AI-помощника" onClick={() => setOpen(false)} className="fixed inset-0 z-[44] bg-black/45 backdrop-blur-[1px] md:hidden" /> : null}
+
+      <div className="pointer-events-none fixed bottom-2 right-2 z-[45] md:bottom-5 md:right-5 md:z-[70]">
         {open ? (
-          <section className="pointer-events-auto mb-3 w-[min(92vw,390px)] rounded-2xl border border-white/15 bg-[#0f0d09]/95 p-4 shadow-2xl backdrop-blur-xl">
-            <div className="flex items-start justify-between gap-3">
+          <section className="pointer-events-auto mb-2 max-h-[min(82vh,680px)] w-[min(95vw,430px)] overflow-y-auto rounded-2xl border border-white/15 bg-[#0f0d09]/95 p-4 shadow-2xl backdrop-blur-xl md:mb-3">
+            <div className="sticky top-0 z-10 -mx-1 -mt-1 mb-2 flex items-start justify-between gap-3 rounded-xl bg-[#0f0d09]/95 px-1 pt-1 pb-2">
               <div>
                 <p className="text-xs font-medium uppercase tracking-[0.08em] text-yellow-300">AI-помощник</p>
                 <h3 className="mt-1 text-lg font-semibold">Получить AI-план</h3>
@@ -118,16 +140,16 @@ export function AiAssistantWidget() {
                 <Section title="Architecture" items={result.architecture} />
                 <Section title="Impact" items={result.impact} />
                 <Section title="Next steps" items={result.next_steps} />
-                <div className="mt-3 flex gap-2">
+                <div className="mt-3 grid gap-2 sm:grid-cols-[1fr_auto]">
                   <Button href={contactQuery} className="w-full" eventName="request_demo">Запросить демо</Button>
-                  <Link href="/contacts" className="inline-flex items-center rounded-xl border border-white/20 px-3 text-sm text-muted hover:text-foreground">Контакты</Link>
+                  <Link href="/contacts" className="inline-flex items-center justify-center rounded-xl border border-white/20 px-3 py-2 text-sm text-muted hover:text-foreground">Контакты</Link>
                 </div>
               </article>
             ) : null}
           </section>
         ) : null}
 
-        <button className="assistant-trigger pointer-events-auto group flex items-center gap-3 rounded-full border border-white/25 bg-black/60 p-2 pr-4 backdrop-blur" onClick={() => setOpen((value) => !value)} aria-label="Открыть AI-помощника">
+        <button className="assistant-trigger pointer-events-auto group flex min-h-12 items-center gap-3 rounded-full border border-white/25 bg-black/60 p-2 pr-4 backdrop-blur" onClick={() => setOpen((value) => !value)} aria-label="Открыть AI-помощника">
           <span className="orb-mark relative grid h-12 w-12 place-items-center overflow-hidden rounded-full">
             <span className="ringRotate absolute inset-[-16px] grid place-items-center text-[8px] font-medium tracking-[0.18em] text-yellow-200/70">
               <OrbRingText text="BEELINE BIG DATA & AI • " />
@@ -145,7 +167,7 @@ export function AiAssistantWidget() {
       </div>
 
       {!open ? (
-        <button onClick={() => setOpen(true)} className="safe-bottom fixed bottom-0 left-0 right-0 z-[65] h-14 border-t border-orange-300/30 bg-black/95 px-4 text-sm font-semibold text-yellow-300 md:hidden">
+        <button onClick={() => setOpen(true)} className="safe-bottom fixed bottom-0 left-0 right-0 z-[43] h-14 border-t border-orange-300/30 bg-black/95 px-4 text-sm font-semibold text-yellow-300 md:hidden">
           Получить AI-план
         </button>
       ) : null}

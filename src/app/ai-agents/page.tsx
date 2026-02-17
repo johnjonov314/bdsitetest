@@ -45,8 +45,8 @@ export default function AiAgentsPage() {
           </ol>
         </section>
 
-        <div className="safe-bottom fixed bottom-4 left-4 right-4 z-40 md:hidden">
-          <Button href="/contacts" className="w-full" eventName="request_demo">Запросить доступ к каталогу</Button>
+        <div className="pt-2">
+          <Button href="/contacts" className="w-full md:w-auto" eventName="request_demo">Запросить доступ к каталогу</Button>
         </div>
       </div>
     </Container>
