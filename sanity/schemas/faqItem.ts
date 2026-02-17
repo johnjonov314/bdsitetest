@@ -5,7 +5,7 @@ export const faqItemType = defineType({
   title: "FAQ",
   type: "document",
   fields: [
-    defineField({ name: "question", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "question", type: "string", validation: (r: { required: () => unknown }) => r.required() }),
     defineField({ name: "answer", type: "text" }),
     defineField({ name: "order", type: "number" })
   ]

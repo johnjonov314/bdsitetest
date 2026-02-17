@@ -5,7 +5,7 @@ export const caseItemType = defineType({
   title: "Кейс",
   type: "document",
   fields: [
-    defineField({ name: "company", type: "string", validation: (r) => r.required() }),
+    defineField({ name: "company", type: "string", validation: (r: { required: () => unknown }) => r.required() }),
     defineField({ name: "industry", type: "string" }),
     defineField({ name: "challenge", type: "text" }),
     defineField({ name: "impact", type: "text" }),
