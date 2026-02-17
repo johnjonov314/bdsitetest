@@ -4,7 +4,7 @@ import { insights } from "@/lib/data/fallback-content";
 import { aiAgentsData, solutionsData } from "@/lib/data/platform-content";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = ["", "/platform", "/solutions", "/ai-agents", "/industries", "/cases", "/insights", "/about", "/contacts", "/playbook", "/design-system"].map((path) => ({
+  const staticRoutes = ["", "/platform", "/solutions", "/ai-agents", "/industries", "/cases", "/insights", "/about", "/contacts", "/playbook", "/design-system", "/docs/overview", "/docs/design-system", "/docs/content-playbook", "/docs/components", "/docs/architecture"].map((path) => ({
     url: `${siteConfig.url}${path}`,
     changeFrequency: "weekly" as const,
     priority: path === "" ? 1 : 0.8

@@ -6,18 +6,13 @@ import { SectionTitle } from "@/components/ui/section-title";
 import { HeroDataFlow } from "@/components/sections/hero-data-flow";
 import { ArchitectureMap } from "@/components/visuals/architecture-map";
 import { ScrollScenes } from "@/components/sections/scroll-scenes";
-import { BrainCircuitIcon, AgentsIcon, DataNodeIcon, ShieldIcon, LockIcon, AuditIcon, CloudIcon, LifebuoyIcon } from "@/components/visuals/line-icons";
+import { ShieldIcon, LockIcon, AuditIcon, CloudIcon, LifebuoyIcon } from "@/components/visuals/line-icons";
+import { CoreStory } from "@/components/sections/core-story";
 import { solutionsData, aiAgentsData } from "@/lib/data/platform-content";
 
 const SolutionsShowcase = dynamic(() => import("@/components/sections/solutions-showcase").then((mod) => mod.SolutionsShowcase), {
   loading: () => <div className="glass rounded-2xl p-6 text-muted">Загружаем флагманские решения...</div>
 });
-
-const pillars = [
-  { title: "Data", icon: DataNodeIcon, bullets: ["Подключение и контроль качества источников", "Каталог данных и правила governance", "Безопасные витрины для всех команд"] },
-  { title: "AI", icon: BrainCircuitIcon, bullets: ["MLOps/LLMOps и релизный контур", "Мониторинг drift и качества ответов", "Управление стоимостью и скоростью inference"] },
-  { title: "Agents", icon: AgentsIcon, bullets: ["Цифровые сотрудники по бизнес-ролям", "Оркестрация процессов между системами", "SLA-контроль результата и журнал действий"] }
-];
 
 const trustBadges = [
   { label: "RBAC и контуры доступа", icon: ShieldIcon },
@@ -60,22 +55,7 @@ export default function Home() {
       <section data-scene="core">
         <Container>
           <SectionTitle eyebrow="Ядро" title="Платформенное ядро Data → AI → Agents" description="Три pillar-блока дают понятную и управляемую архитектуру внедрения." />
-          <div className="grid gap-4 lg:grid-cols-3">
-            {pillars.map((pillar) => {
-              const Icon = pillar.icon;
-              return (
-                <article key={pillar.title} className="glass glow-hover rounded-2xl p-6">
-                  <div className="flex items-center gap-2 text-yellow-200">
-                    <Icon />
-                    <p className="font-mono text-xs uppercase tracking-[0.2em]">{pillar.title}</p>
-                  </div>
-                  <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-muted">
-                    {pillar.bullets.map((item) => <li key={item}>{item}</li>)}
-                  </ul>
-                </article>
-              );
-            })}
-          </div>
+          <CoreStory />
         </Container>
       </section>
 
@@ -95,6 +75,7 @@ export default function Home() {
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <Button href="/ai-agents" eventName="open_agents">Открыть каталог ролей</Button>
+            <Button href="/contacts?interest=AI-план" variant="secondary" eventName="request_demo">Попробовать ассистента</Button>
             <span className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-muted">Скоро: маркетплейс и конструктор агентных сценариев</span>
           </div>
         </Container>

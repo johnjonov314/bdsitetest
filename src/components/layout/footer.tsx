@@ -10,6 +10,7 @@ export function Footer() {
           <div className="flex gap-4">
             <Link href="/about">Политика ПДн</Link>
             <Link href="/contacts">Контакты</Link>
+            <Link href="/docs">Документация</Link>
           </div>
         </div>
       </Container>

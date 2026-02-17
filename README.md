@@ -84,3 +84,22 @@ sanity init
 
 ## Гайды команды
 - Контент и структура данных: `docs/content-guide.md`
+
+
+## Demo Agent (LAB API)
+Для включения demo-агента добавьте переменные в `.env.local`:
+
+```bash
+LAB_API_BASE_URL=https://your-lab-host
+LAB_API_KEY=your_lab_key_optional
+```
+
+Проверка gateway локально:
+
+```bash
+curl -X POST http://localhost:3000/api/agent \
+  -H "Content-Type: application/json" \
+  -d '{"mode":"solution","message":"Нужно сократить ручные операции в поддержке","context":"manual_test"}'
+```
+
+Если `LAB_API_BASE_URL` не задан или LAB недоступна, API вернёт аккуратный fallback в той же структуре.

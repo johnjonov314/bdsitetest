@@ -8,7 +8,7 @@ type Props = { searchParams?: { interest?: string; message?: string } };
 export default function ContactsPage({ searchParams }: Props) {
   return (
     <Container>
-      <div className="space-y-6 py-12">
+      <div className="space-y-6 py-12 pb-28 md:pb-12">
         <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Контакты" }]} />
         <SectionTitle eyebrow="Контакты" title="Запросить демо и план внедрения" description="Опишите задачу — вернёмся с архитектурой, KPI-гипотезой и дорожной картой пилота." />
 

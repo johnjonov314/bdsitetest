@@ -14,24 +14,28 @@ export function AiAgentsCatalog({ items }: { items: AiAgentRole[] }) {
 
   return (
     <section id="catalog" className="space-y-4">
-      <div className="flex snap-x gap-2 overflow-x-auto pb-1">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => {
-              setActive(cat);
-              trackEvent("pick_role", { category: cat });
-            }}
-            className={`snap-start rounded-full border px-3 py-1 text-sm ${active === cat ? "border-yellow-300/70 bg-yellow-300/20 text-yellow-100" : "border-white/15 bg-white/5 text-muted"}`}
-          >
-            {cat}
-          </button>
-        ))}
+      <div className="relative">
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-background to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-background to-transparent" />
+        <div className="flex snap-x gap-2 overflow-x-auto pb-1">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => {
+                setActive(cat);
+                trackEvent("pick_role", { category: cat });
+              }}
+              className={`min-h-11 snap-start rounded-full border px-4 py-2 text-sm ${active === cat ? "border-orange-300/80 bg-orange-300/20 text-yellow-100" : "border-white/15 bg-white/5 text-muted"}`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
       </div>
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
         {visible.map((role) => (
           <article key={role.slug} className="glass glow-hover rounded-2xl p-4">
-            <p className="font-mono text-xs text-yellow-200">{role.category}</p>
+            <p className="text-xs font-medium text-yellow-200">{role.category}</p>
             <h3 className="mt-1 text-lg font-semibold">{role.title}</h3>
             <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-muted">
               {role.outcomes.slice(0, 3).map((outcome) => <li key={outcome}>{outcome}</li>)}

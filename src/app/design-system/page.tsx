@@ -13,7 +13,7 @@ export default function DesignSystemPage() {
         <SectionTitle eyebrow="Система" title="Дизайн-система" description="Токены, типографика, motion и набор кастомных line-иконок." />
 
         <section className="grid gap-4 md:grid-cols-3">
-          {["#FFDD00", "#0E1118", "#4A8FFF"].map((token) => (
+          {["#FFDD00", "#0E1118", "#FF8F2D"].map((token) => (
             <div key={token} className="glass rounded-2xl p-6">
               <div className="h-10 rounded-lg" style={{ backgroundColor: token }} />
               <p className="mt-3 font-mono text-xs text-muted">{token}</p>

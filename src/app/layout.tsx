@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import "./globals.css";
 import { siteConfig } from "@/lib/config/site";
 import { Navbar } from "@/components/layout/navbar";
@@ -7,7 +8,8 @@ import { CookieBanner } from "@/components/layout/cookie-banner";
 import { Toaster } from "sonner";
 import { PageTransition } from "@/components/motion/page-transition";
 import { CursorAura } from "@/components/motion/cursor-aura";
-import { AiAssistantWidget } from "@/components/layout/ai-assistant-widget";
+
+const AiAssistantWidget = dynamic(() => import("@/components/layout/ai-assistant-widget").then((m) => m.AiAssistantWidget), { ssr: false });
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

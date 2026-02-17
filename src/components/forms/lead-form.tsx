@@ -52,10 +52,10 @@ export function LeadForm({ defaultInterest = "ИИ-агенты", defaultMessage
   return (
     <form className="glass grid gap-4 rounded-2xl p-6" onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Имя" error={errors.name?.message}><input {...register("name")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
-        <Field label="Компания" error={errors.company?.message}><input {...register("company")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
-        <Field label="Email" error={errors.email?.message}><input {...register("email")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
-        <Field label="Телефон (опционально)" error={errors.phone?.message}><input {...register("phone")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
+        <Field label="Имя" error={errors.name?.message}><input type="text" {...register("name")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
+        <Field label="Компания" error={errors.company?.message}><input type="text" {...register("company")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
+        <Field label="Email" error={errors.email?.message}><input type="email" {...register("email")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
+        <Field label="Телефон (опционально)" error={errors.phone?.message}><input type="tel" {...register("phone")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3" /></Field>
       </div>
       <Field label="Интерес" error={errors.interest?.message}>
         <select {...register("interest")} className="w-full rounded-lg border border-white/20 bg-white/5 p-3">
@@ -68,7 +68,7 @@ export function LeadForm({ defaultInterest = "ИИ-агенты", defaultMessage
         Согласен(а) на обработку персональных данных
       </label>
       {errors.consent ? <p className="text-sm text-red-400">{errors.consent.message}</p> : null}
-      <Button type="submit" className="w-fit" >{isSubmitting ? "Отправка..." : "Оставить заявку"}</Button>
+      <Button type="submit" className="w-full md:w-fit">{isSubmitting ? "Отправка..." : "Оставить заявку"}</Button>
     </form>
   );
 }

@@ -1,123 +1,178 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 
-type Preset = {
-  id: string;
-  title: string;
-  question: string;
-  summary: string;
-  kpi: string;
-  architecture: string;
+type Mode = "solution" | "roi" | "architecture";
+
+type AgentResult = {
+  understanding: string;
+  bundle: string[];
+  architecture: string[];
+  impact: string[];
+  next_steps: string[];
+  fallback?: boolean;
 };
 
-const presets: Preset[] = [
-  {
-    id: "solution",
-    title: "Подобрать решение под задачу",
-    question: "Нужно снизить ручные операции в клиентском сервисе и ускорить обработку обращений.",
-    summary: "Рекомендуем связку AI-агентов поддержки + оркестрацию заявок с контролем качества.",
-    kpi: "Ожидаемый эффект: до -35% времени обработки обращений за 8–12 недель.",
-    architecture: "Контур: CRM → ingestion → LLM-слой → AI-агент → audit trail и SLA-мониторинг."
-  },
-  {
-    id: "roi",
-    title: "Оценить эффект (KPI/ROI)",
-    question: "Нужно подготовить оценку ROI внедрения AI в продажи и поддержку.",
-    summary: "Собираем baseline, считаем сценарии и формируем матрицу эффектов по подразделениям.",
-    kpi: "Ожидаемый эффект: до +12% конверсии лидов и до -28% OPEX на рутинные процессы.",
-    architecture: "Контур: BI + исторические данные + KPI-модель + дашборд контроля эффекта."
-  },
-  {
-    id: "architecture",
-    title: "Собрать архитектуру внедрения",
-    question: "Нужна архитектура AI-платформы с on-prem контуром и безопасным доступом.",
-    summary: "Проектируем этапы: data foundation, модельный слой, агентный слой и интеграции.",
-    kpi: "Ожидаемый эффект: до -40% рисков внедрения за счёт пилота с измеримыми SLA.",
-    architecture: "Контур: data lakehouse → feature store → model gateway → agents orchestration → observability."
-  }
+const presets: { mode: Mode; title: string; prompt: string }[] = [
+  { mode: "solution", title: "Подобрать решение", prompt: "Нужно сократить ручные операции и ускорить обслуживание клиентов." },
+  { mode: "roi", title: "Оценить эффект", prompt: "Нужна оценка KPI/ROI для запуска AI-агентов в продажах и поддержке." },
+  { mode: "architecture", title: "Архитектура внедрения", prompt: "Нужен план архитектуры с on-prem контуром и безопасностью данных." }
 ];
 
 export function AiAssistantWidget() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState<Preset>(presets[0]);
-  const [input, setInput] = useState("");
+  const [mode, setMode] = useState<Mode>("solution");
+  const [input, setInput] = useState(presets[0].prompt);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<AgentResult | null>(null);
+  const [flash, setFlash] = useState(false);
+  const resultRef = useRef<HTMLDivElement | null>(null);
 
-  const result = useMemo(() => {
-    const normalized = input.trim();
-    if (!normalized) return active;
-    return {
-      ...active,
-      question: normalized,
-      summary: `Для задачи «${normalized}» предлагаем старт через пилот на одном процессе и быстрый замер эффекта.`,
-      kpi: "Ожидаемый эффект: до -25% времени цикла процесса и прозрачный SLA по каждому этапу.",
-      architecture: "Контур: источники данных → AI-модуль → рабочее место сотрудника → мониторинг качества и аудита."
-    };
-  }, [active, input]);
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener("open-assistant", onOpen);
+    return () => window.removeEventListener("open-assistant", onOpen);
+  }, []);
 
-  const contactQuery = `/contacts?interest=${encodeURIComponent(active.title)}&message=${encodeURIComponent(result.question)}`;
+  useEffect(() => {
+    if (!resultRef.current) return;
+    resultRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    setFlash(true);
+    const t = setTimeout(() => setFlash(false), 500);
+    return () => clearTimeout(t);
+  }, [result]);
+
+  const presetTitle = useMemo(() => presets.find((item) => item.mode === mode)?.title ?? "Подобрать решение", [mode]);
+
+  const contactQuery = result
+    ? `/contacts?interest=${encodeURIComponent(presetTitle)}&message=${encodeURIComponent(result.understanding)}&mode=${encodeURIComponent(mode)}`
+    : "/contacts";
+
+  const submit = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch("/api/agent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ mode, message: input, context: "web_assistant" })
+      });
+      if (!response.ok) throw new Error("agent_error");
+      const payload = await response.json() as AgentResult;
+      setResult(payload);
+    } catch {
+      setResult({
+        understanding: "Сервис временно недоступен, но мы подготовим план вручную на основе вашей задачи.",
+        bundle: ["Solution/Agent: Пресейл-консультант", "Platform blocks: Security + Governance + Observability", "Deployment: private contour"],
+        architecture: ["Соберём требования", "Подготовим архитектуру", "Согласуем контур и SLA"],
+        impact: ["Сокращение рисков старта", "Быстрый запуск пилота"],
+        next_steps: ["Оставьте заявку", "Получите план внедрения в течение 1 рабочего дня"],
+        fallback: true
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="pointer-events-none fixed bottom-4 right-4 z-[70] max-w-sm md:bottom-5 md:right-5">
-      {open ? (
-        <section className="pointer-events-auto mb-3 w-[min(92vw,380px)] rounded-2xl border border-white/15 bg-[#0e1016]/95 p-4 shadow-2xl backdrop-blur-xl">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-yellow-200">AI-помощник</p>
-              <h3 className="mt-1 text-lg font-semibold">Подобрать решение</h3>
+    <>
+      <div className="pointer-events-none fixed bottom-4 right-4 z-[70] max-w-sm md:bottom-5 md:right-5">
+        {open ? (
+          <section className="pointer-events-auto mb-3 w-[min(92vw,390px)] rounded-2xl border border-white/15 bg-[#0f0d09]/95 p-4 shadow-2xl backdrop-blur-xl">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-medium uppercase tracking-[0.08em] text-yellow-300">AI-помощник</p>
+                <h3 className="mt-1 text-lg font-semibold">Получить AI-план</h3>
+              </div>
+              <button className="rounded-md border border-white/20 px-2 py-1 text-xs text-muted hover:text-foreground" onClick={() => setOpen(false)}>Свернуть</button>
             </div>
-            <button className="rounded-md border border-white/20 px-2 py-1 text-xs text-muted hover:text-foreground" onClick={() => setOpen(false)}>Свернуть</button>
-          </div>
 
-          <div className="mt-3 grid gap-2">
-            {presets.map((preset) => (
-              <button
-                key={preset.id}
-                onClick={() => setActive(preset)}
-                className={`rounded-xl border px-3 py-2 text-left text-sm transition ${active.id === preset.id ? "border-yellow-300/70 bg-yellow-300/15" : "border-white/15 bg-white/5 hover:border-white/35"}`}
-              >
-                {preset.title}
-              </button>
-            ))}
-          </div>
+            <div className="mt-3 grid gap-2">
+              {presets.map((preset) => (
+                <button
+                  key={preset.mode}
+                  onClick={() => {
+                    setMode(preset.mode);
+                    setInput(preset.prompt);
+                  }}
+                  className={`min-h-11 rounded-xl border px-3 py-2 text-left text-sm transition ${mode === preset.mode ? "border-orange-300/80 bg-orange-300/15" : "border-white/15 bg-white/5 hover:border-white/35"}`}
+                >
+                  {preset.title}
+                </button>
+              ))}
+            </div>
 
-          <label className="mt-3 grid gap-1 text-xs text-muted">
-            Опишите задачу
-            <textarea
-              rows={3}
-              value={input}
-              onChange={(event) => setInput(event.target.value)}
-              placeholder="Например: снизить потери в контакт-центре и автоматизировать контроль качества."
-              className="w-full rounded-xl border border-white/15 bg-black/20 p-3 text-sm text-foreground"
-            />
-          </label>
+            <label className="mt-3 grid gap-1 text-xs text-muted">
+              Задача
+              <textarea
+                rows={3}
+                value={input}
+                onChange={(event) => setInput(event.target.value)}
+                className="w-full rounded-xl border border-white/15 bg-black/20 p-3 text-sm text-foreground"
+              />
+            </label>
 
-          <article className="mt-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-sm">
-            <p className="text-foreground">{result.summary}</p>
-            <p className="mt-2 text-muted">{result.kpi}</p>
-            <p className="mt-2 text-muted">{result.architecture}</p>
-          </article>
+            <Button type="button" onClick={submit} className="mt-3 w-full" eventName="request_demo">
+              {loading ? "Формируем план..." : "Получить план"}
+            </Button>
 
-          <div className="mt-3 flex gap-2">
-            <Button href={contactQuery} className="w-full" eventName="request_demo">Получить план</Button>
-            <Link href="/ai-agents" className="inline-flex items-center rounded-xl border border-white/20 px-3 text-sm text-muted hover:text-foreground">Каталог</Link>
-          </div>
-        </section>
+            {result ? (
+              <article ref={resultRef} className={`mt-3 rounded-xl border border-white/10 bg-white/[0.03] p-3 text-sm ${flash ? "ring-1 ring-orange-300/50" : ""}`}>
+                <h4 className="text-sm font-semibold">Understanding</h4>
+                <p className="mt-1 text-muted">{result.understanding}</p>
+
+                <Section title="Recommended Bundle" items={result.bundle} />
+                <Section title="Architecture" items={result.architecture} />
+                <Section title="Impact" items={result.impact} />
+                <Section title="Next steps" items={result.next_steps} />
+
+                <div className="mt-3 flex gap-2">
+                  <Button href={contactQuery} className="w-full" eventName="request_demo">Запросить демо</Button>
+                  <Link href="/contacts" className="inline-flex items-center rounded-xl border border-white/20 px-3 text-sm text-muted hover:text-foreground">Контакты</Link>
+                </div>
+              </article>
+            ) : null}
+          </section>
+        ) : null}
+
+        <button
+          className="assistant-trigger pointer-events-auto group flex items-center gap-3 rounded-full border border-white/25 bg-black/60 p-2 pr-4 backdrop-blur"
+          onClick={() => setOpen((value) => !value)}
+          aria-label="Открыть AI-помощника"
+        >
+          <span className="orb-mark relative grid h-12 w-12 place-items-center overflow-hidden rounded-full">
+            <svg viewBox="0 0 64 64" className="h-9 w-9" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden>
+              <path d="M32 10 44 17v14L32 38 20 31V17z" className="text-yellow-300" />
+              <path d="M32 38v14M20 31l-8 5M44 31l8 5" className="text-orange-300" />
+              <circle cx="32" cy="52" r="3" className="text-orange-300" />
+              <circle cx="12" cy="36" r="3" className="text-yellow-300" />
+              <circle cx="52" cy="36" r="3" className="text-yellow-300" />
+            </svg>
+          </span>
+          <span className="text-sm font-medium">Получить AI-план</span>
+        </button>
+      </div>
+
+      {!open ? (
+        <button
+          onClick={() => setOpen(true)}
+          className="safe-bottom fixed bottom-0 left-0 right-0 z-[65] h-14 border-t border-orange-300/30 bg-black/95 px-4 text-sm font-semibold text-yellow-300 md:hidden"
+        >
+          Получить AI-план
+        </button>
       ) : null}
+    </>
+  );
+}
 
-      <button
-        className="assistant-trigger pointer-events-auto group flex items-center gap-3 rounded-full border border-white/25 bg-black/55 p-2 pr-4 backdrop-blur"
-        onClick={() => setOpen((value) => !value)}
-        aria-label="Открыть AI-помощника"
-      >
-        <span className="orb-mark relative grid h-12 w-12 place-items-center overflow-hidden rounded-full">
-          <span className="orb-ring" />
-          <span className="orb-core" />
-        </span>
-        <span className="text-sm font-medium">Подобрать решение</span>
-      </button>
-    </div>
+function Section({ title, items }: { title: string; items: string[] }) {
+  return (
+    <section className="mt-3">
+      <h5 className="text-xs font-semibold uppercase tracking-[0.08em] text-orange-200">{title}</h5>
+      <ul className="mt-1 space-y-1 text-muted">
+        {items.map((item) => <li key={item}>• {item}</li>)}
+      </ul>
+    </section>
   );
 }
