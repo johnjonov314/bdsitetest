@@ -4,27 +4,27 @@ import { SectionTitle } from "@/components/ui/section-title";
 
 const blocks = [
   {
-    title: "Руководство для маркетинга",
+    title: "Контент-операции",
     points: [
-      "Контент редактируется через Sanity Studio: главный экран, решения, кейсы, FAQ и материалы аналитики.",
-      "Перед публикацией проверяйте тон: enterprise, без B2C-обещаний.",
-      "Используйте CTA: «Оставить заявку» как основной, «Посмотреть решения» как вторичный."
+      "Новые отрасли добавляйте в `industriesData` (минимум 6 кейсов).",
+      "Новые флагманские решения добавляйте в `solutionsData`.",
+      "Новые роли AI-агентов добавляйте в `aiAgentsData` с категорией и outcomes."
     ]
   },
   {
-    title: "Руководство для дизайнеров",
+    title: "Медиа и видео",
     points: [
-      "Соблюдайте цветовую систему из токенов в `globals.css`.",
-      "Графика — только оригинальные SVG/градиенты/абстракции.",
-      "Анимации: только transform/opacity и поддержка reduced motion."
+      "Локальные файлы храните в `public/media/*`.",
+      "Видео для hero: webm + mp4 fallback, до 3–5MB, preload=metadata.",
+      "Именование: `section-purpose-v1.webm` и `section-purpose-v1.mp4`."
     ]
   },
   {
-    title: "Админка и контуры",
+    title: "QA чеклист",
     points: [
-      "CMS Studio: настройте `NEXT_PUBLIC_SANITY_PROJECT_ID` и `NEXT_PUBLIC_SANITY_DATASET`.",
-      "Черновой предпросмотр: `/api/draft?secret=...&slug=/`.",
-      "Ручная ре-валидация: `POST /api/revalidate` с `REVALIDATE_SECRET`."
+      "Mobile Safari: safe-area, touch targets ≥44px, без hover-only логики.",
+      "Reduced motion: проверьте отключение tilt/cursor aura/parallax.",
+      "Перед релизом: `npm run lint && npm run typecheck && npm run build`."
     ]
   }
 ];
@@ -33,8 +33,8 @@ export default function PlaybookPage() {
   return (
     <Container>
       <div className="space-y-8 py-12">
-        <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Гайд команды" }]} />
-        <SectionTitle eyebrow="Гайд" title="Материалы для маркетинга, дизайна и администраторов" description="Краткая операционная инструкция по контенту, стилям и CMS Studio." />
+        <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Playbook" }]} />
+        <SectionTitle eyebrow="Playbook" title="Гайд для маркетинга, дизайна и разработки" description="Как масштабировать контент, анимации и медиа без поломки архитектуры." />
         <div className="grid gap-4 md:grid-cols-3">
           {blocks.map((block) => (
             <article key={block.title} className="glass rounded-2xl p-6">

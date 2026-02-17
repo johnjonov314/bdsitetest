@@ -12,12 +12,12 @@ import { AiAssistantWidget } from "@/components/layout/ai-assistant-widget";
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Beeline Big Data & AI",
-    template: "%s | Beeline Big Data & AI"
+    default: "Beeline BigData & AI — AI Operating System для бизнеса",
+    template: "%s | Beeline BigData & AI"
   },
   description: siteConfig.description,
   openGraph: {
-    title: "Beeline Big Data & AI",
+    title: "Beeline BigData & AI",
     description: siteConfig.description,
     type: "website",
     locale: "ru_RU",

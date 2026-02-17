@@ -68,19 +68,19 @@ sanity init
 
 ## Страницы
 - `/`
+- `/platform`
 - `/solutions`
-- `/solutions/ai-agents`
-- `/solutions/video-analytics`
-- `/solutions/geo`
-- `/solutions/antifraud`
-- `/solutions/speech-analytics`
+- `/solutions/[slug]`
+- `/ai-agents`
+- `/ai-agents/[role]`
 - `/industries`
 - `/cases`
 - `/insights`
 - `/insights/[slug]`
 - `/about`
 - `/contacts`
-
+- `/playbook`
+- `/design-system`
 
 ## Гайды команды
 - Контент и структура данных: `docs/content-guide.md`

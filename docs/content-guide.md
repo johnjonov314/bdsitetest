@@ -1,92 +1,119 @@
-# Content Guide: Beeline Big Data & AI
+# Content Guide — Beeline BigData & AI
 
-Документ для разработчиков, дизайнеров и маркетинга. Здесь описано, где менять ключевой контент и визуальные правила.
+Практический гайд для разработчиков, дизайнеров и маркетинга.
 
-## 1) Где добавлять новые отрасли
+## 1) Где править отрасли
 Файл: `src/lib/data/platform-content.ts`
 
 Массив: `industriesData`
 
-Структура:
 ```ts
 {
   id: string,
   title: string,
   tagline: string,
-  useCases: string[] // минимум 6 кейсов
+  useCases: string[] // обязательно 6+
 }
 ```
 
-Как отобразится:
-- страница `/industries` через компонент `IndustriesExplorer`
-- главная `/` в блоке «10 индустрий в фокусе»
+Отображение:
+- `/industries` через `IndustriesExplorer`
+- краткий список на `/`
 
-## 2) Где добавлять новые решения
+## 2) Где править решения
 Файл: `src/lib/data/platform-content.ts`
 
 Массив: `solutionsData`
 
-Структура:
 ```ts
 {
   id: string,
+  slug: string,
   title: string,
   summary: string,
-  enterpriseCases: string[] // минимум 6 кейсов
+  outcomes: string[],
+  capabilities: string[],
+  enterpriseCases: string[], // минимум 6
+  kpi: string[]
 }
 ```
 
-Как отобразится:
-- страница `/solutions` (интерактивный showcase)
-- главная `/` (флагманские блоки)
+Отображение:
+- `/solutions`
+- `/solutions/[slug]`
+- блок флагманов на `/`
 
-## 3) Где лежат AI-агенты
+## 3) Где править AI-агентов
 Файл: `src/lib/data/platform-content.ts`
 
 Массив: `aiAgentsData`
 
-Структура:
 ```ts
 {
+  slug: string,
+  category: "Продажи" | "Маркетинг" | "Финансы" | "Юр" | "HR" | "Контент" | "Управление",
   title: string,
-  description: string
+  description: string,
+  outcomes: string[],
+  exampleTask: string,
+  futureMarketplace: boolean
 }
 ```
 
-Как отобразится:
-- главная `/` в секции «Цифровые AI-сотрудники»
+Отображение:
+- `/ai-agents`
+- `/ai-agents/[role]`
 
-## 4) Как менять цвета темы
+## 4) Цветовая тема и токены
 Файл: `src/app/globals.css`
 
-Основные CSS-переменные:
+Ключевые переменные:
 - `--background`
 - `--foreground`
-- `--primary` (акцент Beeline)
+- `--primary` (beeline-акцент)
 - `--accent`
 - `--muted`
 
-Рекомендация:
-- для dark-tech использовать высокий контраст текста и аккуратный glow только на hover.
-
-## 5) Как подключать/менять анимации
-Базовые motion-компоненты:
-- `src/components/ui/reveal.tsx` — stagger reveal
-- `src/components/motion/tilt-card.tsx` — tilt по hover
-- `src/components/motion/page-transition.tsx` — переходы между роутами
-- `src/components/motion/cursor-aura.tsx` — курсорная аура (desktop)
+## 5) Анимации
+Файлы:
+- `src/components/ui/reveal.tsx`
+- `src/components/motion/tilt-card.tsx`
+- `src/components/motion/page-transition.tsx`
+- `src/components/motion/cursor-aura.tsx`
+- `src/components/sections/hero-data-flow.tsx`
 
 Правила:
-- анимировать только `transform` и `opacity`
-- учитывать `prefers-reduced-motion`
-- избегать тяжелых бесконечных циклов
+- только `transform` + `opacity`
+- уважать `prefers-reduced-motion`
+- не добавлять тяжёлые бесконечные циклы без паузы
 
-## 6) Где редактировать AI-виджет навигации
-Файл: `src/components/layout/ai-assistant-widget.tsx`
+## 6) Как загружать видео
+Папка: `public/media/hero/`
 
-Ссылки/пункты виджета — массив `helperLinks`.
+Рекомендации:
+- форматы: `webm` + `mp4` fallback
+- размер: желательно до 3–5MB
+- preload: `metadata`
+- mobile fallback: статичный/градиентный фон
 
-## 7) CMS и медиа
-- Контент для редакторов: Sanity Studio (через `NEXT_PUBLIC_SANITY_STUDIO_URL`)
-- Локальные медиа: `public/media/*`
-- Если контент в Sanity недоступен, сайт использует fallback-данные.
+Naming:
+- `hero-dataflow-v1.webm`
+- `hero-dataflow-v1.mp4`
+
+## 7) Mobile Safari checklist
+- touch-target ≥ 44px
+- нет критичных hover-only действий
+- safe-area учтён
+- на reduced motion отключаются тяжёлые эффекты
+
+## 8) Переключение heavy-motion
+- Базово heavy эффекты отключаются через `prefers-reduced-motion`.
+- Если нужен полный kill-switch, добавляйте feature-flag в `siteConfig` и проверяйте его в motion-компонентах.
+
+## 9) Release QA
+Запуск перед релизом:
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
