@@ -75,7 +75,7 @@ export default async function Home() {
         <Container>
           <SectionTitle eyebrow="Solutions" title="Продуктовые направления" description="Проваливайтесь в направление: сценарии, архитектура, KPI, контур внедрения." />
           <div className="grid gap-4 md:grid-cols-2">
-            {solutions.slice(0, 4).map((s: Solution, i: number) => (
+            {solutions.slice(0, 4).map((s: Solution) => (
               <TiltCard key={s.slug}>
                 <article className="glass noise rounded-2xl p-6">
                   <p className="font-mono text-xs text-primary">PRIORITY 0{s.priority}</p>

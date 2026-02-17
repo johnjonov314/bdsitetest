@@ -21,7 +21,9 @@ export async function POST(request: Request) {
   }
 
   const payload = parsed.data;
-  console.log("Lead request:", payload);
+  if (process.env.NODE_ENV !== "production") {
+    console.info("Lead request:", payload);
+  }
 
   const host = process.env.SMTP_HOST;
   const user = process.env.SMTP_USER;
