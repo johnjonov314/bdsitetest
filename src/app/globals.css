@@ -146,3 +146,32 @@ a:hover { color: hsl(var(--accent)); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 @keyframes ring { to { transform: rotate(360deg); } }
+
+
+:root {
+  --z-bg: 0;
+  --z-content: 10;
+  --z-fx: 20;
+  --z-ui: 30;
+  --z-sheet: 40;
+  --z-cta: 50;
+}
+
+.scene { position: relative; z-index: var(--z-content); }
+[data-lite="1"] .ringRotate,
+[data-lite="1"] .hero-orb,
+[data-lite="1"] .core-orb { animation: none !important; }
+
+body, #__next, main { overflow-x: clip; }
+
+.core-orb {
+  background:
+    radial-gradient(circle at 28% 26%, rgba(255,255,255,0.35), transparent 32%),
+    radial-gradient(circle at 70% 72%, rgba(255,138,0,0.45), transparent 48%),
+    radial-gradient(circle, rgba(255,212,0,0.3), rgba(255,110,0,0.16));
+  filter: blur(0.2px);
+  pointer-events: none;
+}
+
+.floating-cta { padding-bottom: calc(0.4rem + env(safe-area-inset-bottom)); }
+.segmented::-webkit-scrollbar { height: 0; }
