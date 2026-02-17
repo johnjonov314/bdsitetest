@@ -60,7 +60,7 @@ export default function DocsArchitecturePage() {
         <h3>API contract /api/agent</h3>
         <pre className="mt-2 overflow-x-auto rounded-xl border border-white/10 bg-black/30 p-4 text-xs">
 {`POST /api/agent
-{ mode, message, context }
+{ mode: "solution" | "impact" | "architecture", message, context }
 
 Response:
 {

@@ -40,12 +40,15 @@ export default function Home() {
           <div className="noise relative overflow-hidden rounded-3xl border border-yellow-300/20 px-6 py-16 md:px-12 md:py-20">
             <HeroDataFlow />
             <div className="relative z-10 max-w-4xl space-y-6">
-              <p className="font-mono text-xs uppercase tracking-[0.24em] text-yellow-200">AI Operating System • BigData & AI</p>
-              <h1 className="text-5xl font-semibold leading-tight md:text-7xl">AI-платформа, которая превращает данные в бизнес-результат</h1>
-              <p className="text-lg text-muted">Для enterprise-команд, которым нужны контроль, безопасность и масштабируемый эффект от AI и агентных сценариев.</p>
+              <p className="reveal-line text-xs font-medium uppercase tracking-[0.12em] text-yellow-200">AI Operating System • BigData & AI</p>
+              <h1 className="reveal-line">AI-платформа, которая превращает данные в бизнес-результат</h1>
+              <p className="reveal-line text-lg text-muted">Для enterprise-команд, которым нужны контроль, безопасность и масштабируемый эффект от AI и агентных сценариев.</p>
               <div className="flex flex-wrap gap-3">
                 <Button href="/platform" eventName="view_platform">Смотреть платформу</Button>
                 <Button href="/ai-agents" variant="secondary" eventName="open_agents">AI-агенты для бизнеса</Button>
+              </div>
+              <div className="hero-video-slot mt-2 rounded-xl border border-white/10 bg-black/20 p-3 text-xs text-muted">
+                TODO: hero-loop.webm / hero-loop.mp4 (low-contrast, muted, lazy-loaded)
               </div>
             </div>
           </div>
@@ -92,6 +95,7 @@ export default function Home() {
         <Container>
           <SectionTitle eyebrow="Доверие" title="Архитектура и контроль внедрения" description="Proof stack: схема платформы, security/compliance и измеримые результаты." />
           <ArchitectureMap />
+          <div className="hero-video-slot mt-3 rounded-xl border border-white/10 bg-black/20 p-3 text-xs text-muted">TODO: architecture-loop.webm (optional, blend-mode)</div>
           <div className="mt-4 flex flex-wrap gap-2">
             {trustBadges.map((item) => {
               const Icon = item.icon;

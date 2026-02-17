@@ -4,9 +4,12 @@ import { Container } from "@/components/ui/container";
 const links = [
   { href: "/docs/overview", label: "Overview" },
   { href: "/docs/design-system", label: "Design System" },
+  { href: "/docs/motion-grammar", label: "Motion Grammar" },
   { href: "/docs/content-playbook", label: "Content Playbook" },
   { href: "/docs/components", label: "Components" },
-  { href: "/docs/architecture", label: "Architecture" }
+  { href: "/docs/architecture", label: "Architecture" },
+  { href: "/docs/qa-release", label: "QA Release" },
+  { href: "/docs/deck", label: "Deck" }
 ];
 
 export default function DocsLayout({ children }: { children: React.ReactNode }) {

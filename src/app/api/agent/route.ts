@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-type AgentMode = "solution" | "roi" | "architecture";
+type AgentMode = "solution" | "impact" | "architecture";
 
 type AgentResponse = {
   understanding: string;
@@ -38,7 +38,7 @@ const fallbackByMode: Record<AgentMode, AgentResponse> = {
       "Масштабировать на смежные команды"
     ]
   },
-  roi: {
+  impact: {
     understanding: "Поняли цель: оценить финансовый эффект и сроки окупаемости внедрения AI.",
     bundle: [
       "Solution/Agent: AI-аналитик эффектов внедрения",
@@ -96,7 +96,7 @@ const fallbackByMode: Record<AgentMode, AgentResponse> = {
 };
 
 export async function POST(request: Request) {
-  const body = await request.json().catch(() => null) as { mode?: AgentMode; message?: string; context?: string } | null;
+  const body = await request.json().catch(() => null) as { mode?: AgentMode; message?: string; context?: unknown } | null;
   const mode = body?.mode ?? "solution";
   const message = body?.message?.trim();
 
