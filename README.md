@@ -80,3 +80,7 @@ sanity init
 - `/insights/[slug]`
 - `/about`
 - `/contacts`
+
+
+## Гайды команды
+- Контент и структура данных: `docs/content-guide.md`
