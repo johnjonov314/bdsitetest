@@ -11,7 +11,7 @@ export default async function CasesPage() {
         <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Кейсы" }]} />
         <SectionTitle eyebrow="Cases" title="Кейсы внедрения" />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((c: any) => (
+          {items.map((c) => (
             <article key={c.company} className="glass rounded-2xl p-6">
               <h2 className="text-2xl">{c.company}</h2>
               <p className="text-sm text-primary">{c.industry}</p>
