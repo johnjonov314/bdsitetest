@@ -38,7 +38,7 @@ export default async function Home() {
 
       <section id="solutions"><Container><SectionTitle eyebrow="Решения" title="Что мы делаем" description="Приоритетные продуктовые направления для роста и эффективности." />
         <div className="grid gap-4 md:grid-cols-2">
-          {solutions.slice(0, 4).map((s: any, i: number) => <Reveal key={s.slug} delay={i * 0.05}><article className="glass rounded-2xl p-6"><p className="mb-2 text-xs text-primary">#{s.priority}</p><h3 className="mb-2 text-2xl">{s.title}</h3><p className="text-muted">{s.summary}</p></article></Reveal>)}
+          {solutions.slice(0, 4).map((s, i: number) => <Reveal key={s.slug} delay={i * 0.05}><article className="glass rounded-2xl p-6"><p className="mb-2 text-xs text-primary">#{s.priority}</p><h3 className="mb-2 text-2xl">{s.title}</h3><p className="text-muted">{s.summary}</p></article></Reveal>)}
         </div></Container></section>
 
       <section><Container><SectionTitle eyebrow="Spotlight" title="ИИ-агенты" description="Автоматизируют повторяемые операции, сокращают время решения задач и повышают предсказуемость процессов." />
@@ -48,7 +48,7 @@ export default async function Home() {
       <div className="glass grid gap-4 rounded-2xl p-6 md:grid-cols-3">{["Контроль периметра", "Детекция инцидентов", "Стандарты процессов"].map((x)=><p key={x} className="rounded-xl border border-white/10 p-4">{x}</p>)}</div></Container></section>
 
       <section id="cases"><Container><SectionTitle eyebrow="Кейсы" title="Реальные внедрения" />
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{caseItems.slice(0,6).map((c:any)=><article key={c.company} className="glass rounded-2xl p-5"><h3 className="text-xl">{c.company}</h3><p className="text-sm text-primary">{c.industry}</p><p className="mt-2 text-sm text-muted">{c.challenge}</p><p className="mt-2 text-sm">{c.impact}</p></article>)}</div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{caseItems.slice(0,6).map((c)=><article key={c.company} className="glass rounded-2xl p-5"><h3 className="text-xl">{c.company}</h3><p className="text-sm text-primary">{c.industry}</p><p className="mt-2 text-sm text-muted">{c.challenge}</p><p className="mt-2 text-sm">{c.impact}</p></article>)}</div>
       <div className="mt-6"><Button href="/cases" variant="secondary">Все кейсы</Button></div></Container></section>
 
       <section id="industries"><Container><SectionTitle eyebrow="Отрасли" title="Фокус по индустриям" />
@@ -61,7 +61,7 @@ export default async function Home() {
       <div className="glass rounded-2xl p-6 text-muted"><ul className="list-disc space-y-2 pl-5"><li>Работа с агрегированными и обезличенными данными в сценариях аналитики.</li><li>Договорные контуры и разграничение ролей доступа.</li><li>Соответствие требованиям 152-ФЗ и корпоративной ИБ-политике.</li></ul></div></Container></section>
 
       <section id="faq"><Container><SectionTitle eyebrow="FAQ" title="Частые вопросы" />
-      <div className="space-y-3">{faq.map((f:any)=><details key={f.question} className="glass rounded-xl p-4"><summary className="cursor-pointer">{f.question}</summary><p className="mt-2 text-sm text-muted">{f.answer}</p></details>)}</div></Container></section>
+      <div className="space-y-3">{faq.map((f)=><details key={f.question} className="glass rounded-xl p-4"><summary className="cursor-pointer">{f.question}</summary><p className="mt-2 text-sm text-muted">{f.answer}</p></details>)}</div></Container></section>
 
       <section><Container><div className="relative overflow-hidden rounded-3xl border border-white/10 p-8"><DotMesh /><SectionTitle eyebrow="Start" title="Обсудим задачу и архитектуру внедрения" description="Оставьте заявку — подготовим релевантный сценарий под ваш контур." /><LeadForm /></div></Container></section>
     </div>

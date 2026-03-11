@@ -12,7 +12,7 @@ export default async function SolutionsPage() {
         <Breadcrumbs items={[{ label: "Главная", href: "/" }, { label: "Решения" }]} />
         <SectionTitle eyebrow="Solutions" title="Решения Beeline Big Data & AI" />
         <div className="grid gap-4 md:grid-cols-2">
-          {solutions.map((s: any) => (
+          {solutions.map((s) => (
             <article key={s.slug} className="glass rounded-2xl p-6">
               <h2 className="text-2xl">{s.title}</h2>
               <p className="mt-2 text-muted">{s.summary}</p>
